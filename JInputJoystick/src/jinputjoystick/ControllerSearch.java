@@ -1,7 +1,7 @@
 //A polling thread that checks the status of controllers.
 //It doesn't work with the current version of JInput.
 //It does generate add events for controllers attached at launch time.
-//Created by James Vanderhyde, 7 January 2013
+//Created by James Vanderhyde, 7 January 2014
 
 package jinputjoystick;
 
