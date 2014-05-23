@@ -1,6 +1,8 @@
 package us.vanderhyde.gamepad;
 
 import java.util.ArrayList;
+import net.java.games.input.Controller;
+import net.java.games.input.ControllerEnvironment;
 
 /**
  *
@@ -20,10 +22,20 @@ public class EventThread extends Thread
         this.buttonListeners = new ArrayList<GamepadButtonListener>();
     }
     
+    public static int numGamepadsAttached()
+    {
+        Controller[] conts = ControllerEnvironment.getDefaultEnvironment().getControllers();
+        int num = 0;
+        for (Controller c:conts)
+            if (c.getType() == Controller.Type.GAMEPAD) 
+                num++;
+        return num;
+    }
+    
     @Override
     public void run()
     {
-        System.out.println("Event thread started.");
+        System.out.println("Gamepad event thread started.");
         
         ControllerSearch search = new ControllerSearch();
         Thread searcherThread = new Thread(search);
