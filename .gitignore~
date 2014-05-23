@@ -14,7 +14,7 @@ hs_err_pid*
 # Netbeans stuff #
 dist/
 build/
-*/nbproject/private/
+nbproject/private/
 
 # Word stuff #
 .~lock*
