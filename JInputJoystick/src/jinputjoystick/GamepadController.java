@@ -26,17 +26,19 @@ public class GamepadController
         }
         Component[] components = controller.getComponents();
         
-        //Set up button buffers
-        buttonsOn1 = new boolean[components.length];
-        buttonsOn2 = new boolean[components.length];
-        buttonsOn = buttonsOn1;
+        //Check for axis components.
+        //  We'll add the negative axis as a button on the end of the buffer.
+        int numAxes = 0;
         for (int i=0; i<components.length; i++)
-        {
-            if (components[i].getPollData() > 0.5f)
-                buttonsOn[i]=true;
-            else
-                buttonsOn[i]=false;
-        }
+            if (components[i].isAnalog())
+                numAxes++;
+        
+        //Set up button buffers
+        buttonsOn1 = new boolean[components.length+numAxes];
+        buttonsOn2 = new boolean[components.length+numAxes];
+        buttonsOn = buttonsOn1;
+        
+        fillInButtonBuffer(components);
     }
     
     public Controller getController()
@@ -54,11 +56,7 @@ public class GamepadController
             System.out.println("Controller disconnected.");
             return;
         }
-        
         Component[] components = controller.getComponents();
-        int numComponents = components.length;
-        if (buttonsOn.length < numComponents)
-            numComponents = buttonsOn.length;
         
         //swap the button buffers
         buttonsOnPrev = buttonsOn;
@@ -67,14 +65,7 @@ public class GamepadController
         else
             buttonsOn = buttonsOn1;
         
-        //fill in the button buffer
-        for (int i=0; i<numComponents; i++)
-        {
-            if (components[i].getPollData() > 0.5f)
-                buttonsOn[i]=true;
-            else
-                buttonsOn[i]=false;
-        }
+        fillInButtonBuffer(components);
     }
     
     public boolean compareBuffers()
@@ -98,6 +89,35 @@ public class GamepadController
     public boolean buttonOnPrev(int i)
     {
         return buttonsOnPrev[i];
+    }
+
+    private void fillInButtonBuffer(Component[] components)
+    {
+        int nextAxis=0;
+        for (int i=0; i<components.length; i++)
+        {
+            final float pollData = components[i].getPollData();
+            if (components[i].isAnalog())
+            {
+                if (pollData > 0.5f)
+                    buttonsOn[i]=true;
+                else if (pollData < -0.5f)
+                    buttonsOn[components.length+nextAxis]=true;
+                else
+                {
+                    buttonsOn[i]=false;
+                    buttonsOn[components.length+nextAxis]=false;
+                }
+                nextAxis++;
+            }
+            else
+            {
+                if (pollData > 0.5f)
+                    buttonsOn[i]=true;
+                else
+                    buttonsOn[i]=false;
+            }
+        }
     }
     
 }
