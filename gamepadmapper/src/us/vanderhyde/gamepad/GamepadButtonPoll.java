@@ -10,28 +10,38 @@ public class GamepadButtonPoll extends EventGenerationPoll<GamepadButtonEvent>
      implements ControllerListener
 {
     private ArrayList<GamepadController> controllers;
+    private boolean controllerIsAttached;
     
     public GamepadButtonPoll()
     {
         controllers = new ArrayList<GamepadController>();
         this.setPollTime(15);
+
+        //Assume this is true, until a controller is removed,
+        // so that the thread will not quit before a controller is added.
+        controllerIsAttached = true; 
     }
 
     @Override
     public boolean canStillRun()
     {
-        return true;
+        return controllerIsAttached;
     }
 
     @Override
     public boolean poll()
     {
+        GamepadController detachedController = null;
         boolean change = false;
         for (GamepadController g:controllers)
         {
             g.pollController();
             change |= g.compareBuffers();
+            if (!g.isControllerValid())
+                detachedController = g;
         }
+        if (detachedController != null)
+            this.controllerRemoved(new ControllerConnectionEvent(detachedController.getController(),ControllerConnectionEvent.CONTROLLER_REMOVED));
         return change;
     }
 
@@ -64,6 +74,8 @@ public class GamepadButtonPoll extends EventGenerationPoll<GamepadButtonEvent>
                 controllers.remove(g);
                 break;
             }
+        if (controllers.isEmpty())
+            controllerIsAttached = false;
     }
     
 }

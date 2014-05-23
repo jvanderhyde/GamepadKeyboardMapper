@@ -12,13 +12,14 @@ public class GamepadController
     private Controller controller;
     private boolean[] buttonsOn1,buttonsOn2;
     private boolean[] buttonsOn,buttonsOnPrev;
+    private boolean controllerValid;
 
     public GamepadController(Controller controller)
     {
         this.controller = controller;
         
         //Poll the controller for the first time
-        boolean controllerValid = controller.poll();
+        controllerValid = controller.poll();
         if(!controllerValid) 
         {
             //Lost the controller already
@@ -46,13 +47,21 @@ public class GamepadController
         return this.controller;
     }
     
+    public boolean isControllerValid()
+    {
+        return controllerValid;
+    }
+    
     public void pollController()
     {
+        //make sure controller is present
+        if (!controllerValid)
+            return;
+        
         //poll the controller
-        boolean controllerValid = controller.poll();
+        controllerValid = controller.poll();
         if (!controllerValid)
         {
-            controller = null;
             System.out.println("Controller disconnected.");
             return;
         }

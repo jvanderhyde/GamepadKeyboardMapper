@@ -62,9 +62,9 @@ public class EventThread extends Thread
         }
         catch (InterruptedException e)
         {
-            System.out.println("Event thread interruped.");
+            System.out.println("Gamepad event thread interruped.");
         }
-        System.out.println("Event thread terminated.");
+        System.out.println("Gamepad event thread terminated.");
     }
     
     private class ControllerListenerNotifier implements EventHandler<ControllerConnectionEvent>
