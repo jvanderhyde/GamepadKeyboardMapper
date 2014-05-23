@@ -3,7 +3,7 @@
 //It does generate add events for controllers attached at launch time.
 //Created by James Vanderhyde, 7 January 2014
 
-package jinputjoystick;
+package us.vanderhyde.gamepad;
 
 import java.util.ArrayList;
 import java.util.Arrays;

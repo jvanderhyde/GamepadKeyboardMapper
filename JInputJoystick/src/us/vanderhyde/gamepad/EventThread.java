@@ -1,4 +1,4 @@
-package jinputjoystick;
+package us.vanderhyde.gamepad;
 
 import java.util.ArrayList;
 

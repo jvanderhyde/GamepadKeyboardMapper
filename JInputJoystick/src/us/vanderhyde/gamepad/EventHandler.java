@@ -1,4 +1,4 @@
-package jinputjoystick;
+package us.vanderhyde.gamepad;
 
 public interface EventHandler<E>
 {

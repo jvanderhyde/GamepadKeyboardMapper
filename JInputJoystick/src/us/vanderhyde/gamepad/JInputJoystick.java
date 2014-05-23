@@ -1,4 +1,4 @@
-package jinputjoystick;
+package us.vanderhyde.gamepad;
 
 import java.awt.AWTException;
 import java.awt.Robot;

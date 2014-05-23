@@ -1,5 +1,5 @@
 
-package jinputjoystick;
+package us.vanderhyde.gamepad;
 
 import java.util.LinkedList;
 import java.util.Queue;
