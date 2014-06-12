@@ -1,3 +1,6 @@
+//Simple thread for polling the gamepad.
+//Obsoleted by EventThread.
+
 package us.vanderhyde.gamepad;
 
 import java.util.ArrayList;
