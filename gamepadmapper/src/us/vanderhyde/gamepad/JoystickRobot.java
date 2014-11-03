@@ -27,7 +27,7 @@ public class JoystickRobot
 	try 
         {
 	    t=new EventThread();
-	    t.addGamepadButtonListener(new CHGamepadToMibibli());
+	    t.addGamepadButtonListener(new CHGamepadToTransistor());
 	    t.start();
 	}
 	catch (GamepadException e)
